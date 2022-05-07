@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration >
+
+    <property name="LOGS" value="./logs"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%-30([CONSOLE]%d{HH:mm:ss.SSS} %-4relative ) %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="3RDPARTY" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/3rd-Party.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOGS}/backup/3D_party_%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%-30([FILE]%d{HH:mm:ss.SSS} %-4relative) %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/template.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOGS}/backup/template_%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%-30([FILE]%d{HH:mm:ss.SSS} %-4relative ) %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- third party log -->
+    <logger name="org" level="WARN">
+        <appender-ref ref="3RDPARTY"/>
+    </logger>
+
+    <logger name="_org" level="WARN">
+        <appender-ref ref="3RDPARTY"/>
+    </logger>
+
+    <logger name="com" level="WARN">
+        <appender-ref ref="3RDPARTY"/>
+    </logger>
+
+    <!--    different spring profiles -->
+    <springProfile name="dev">
+        <logger name="it.parasca" level="DEBUG">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+        <logger name="org" level="WARN">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+
+        <logger name="_org" level="WARN">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+
+        <logger name="com" level="WARN">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="test | stage">
+        <logger name="it.parasca" level="DEBUG">
+            <appender-ref ref="FILE"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="prod">
+        <logger name="it.parasca" level="INFO">
+            <appender-ref ref="FILE"/>
+        </logger>
+    </springProfile>
+
+</configuration>
