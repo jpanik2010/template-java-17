@@ -21,7 +21,7 @@ public class ExceptionAdvice {
         LOGGER.error("Unexpected exception", exception);
         ErrorDto errorResponse = new ErrorDto(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Errore inaspettato"
+                "Unexpected error"
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }

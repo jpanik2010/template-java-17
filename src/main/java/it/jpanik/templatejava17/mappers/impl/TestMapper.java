@@ -35,7 +35,7 @@ public class TestMapper implements IMapper<TestDto, Test> {
         Test entity;
         if (dto.getId() != null) {
             entity = testRepository.findById(dto.getId()).orElseThrow(() ->
-                    throwNotFound(String.format("Test non trovato con id=%s", dto.getId())));
+                    throwNotFound(String.format("Test not found with id=%s", dto.getId())));
             ITestMapper.INSTANCE.mergeDtoToEntity(entity, dto);
         } else {
             entity = ITestMapper.INSTANCE.convertDtoToEntity(dto);

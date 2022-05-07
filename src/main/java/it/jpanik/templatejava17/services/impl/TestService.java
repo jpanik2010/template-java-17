@@ -43,7 +43,7 @@ public class TestService implements ITestService {
     @Override
     public TestDto findById(Long id) throws ServiceException {
         Test test = testRepository.findById(id).orElseThrow(() ->
-                throwNotFound(String.format("Test non trovato con id=%s", id)));
+                throwNotFound(String.format("Test not found with id=%s", id)));
         return testMapper.convertEntityToDto(test);
     }
 
@@ -57,7 +57,7 @@ public class TestService implements ITestService {
     @Override
     public AckDto delete(Long id) throws ServiceException {
         Test test = testRepository.findById(id).orElseThrow(() ->
-                throwNotFound(String.format("Test non trovato con id=%s", id)));
+                throwNotFound(String.format("Test not found with id=%s", id)));
         testRepository.delete(test);
         return ackOK();
     }
